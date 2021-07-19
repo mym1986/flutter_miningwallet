@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "393658824498",
+    "project_id": "ggm-mining",
+    "storage_bucket": "ggm-mining.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:393658824498:android:3e282de76a9bdb5383092b",
+        "android_client_info": {
+          "package_name": "com.example.flutter_miningwallet"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "393658824498-tfmlob4m6c31bhvttha5adkvcav9gevh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDrvuovqwRzAAbImDOa304GMt3kYW_jLug"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "393658824498-tfmlob4m6c31bhvttha5adkvcav9gevh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
