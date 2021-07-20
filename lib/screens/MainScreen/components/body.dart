@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/components/customTimer.dart';
 import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
 import 'package:flutter_miningwallet/screens/Notification/notification.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -12,21 +13,55 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   late AnimationController controller;
+  final FlutterSecureStorage storage = FlutterSecureStorage();
+
+  Future<bool> hasValue() async{
+    var value = await storage.read(key: 'Value');
+    if(value != null){
+      return true;
+    }else{
+      return false;
+    }
+  }
 
   String get timerString {
     Duration duration = controller.duration! * controller.value;
+    if(hasValue() == true) {
+      duration = controller.duration! * controller.value;
+    }
+
     return '${duration.inMinutes}m${(duration.inSeconds % 60).toString().padLeft(2, '0')}s';
   }
+
+  String email = "";
 
   @override
   void initState() {
     super.initState();
-    controller =
-        AnimationController(vsync: this, duration: Duration(minutes: 10));
+    controller = AnimationController(vsync: this, duration: Duration(seconds: 10/*minutes: 1*/));
+    _getEmail().then((val) => setState(() {
+      email = val.toString();
+    }));
+  }
+
+
+  Future<String> _getEmail() async{
+    final FlutterSecureStorage storage = FlutterSecureStorage();
+    return await storage.read(key: "User");
   }
 
   @override
   Widget build(BuildContext context) {
+
+    var animation = CurvedAnimation(parent: controller, curve: Curves.bounceInOut);
+    animation.addStatusListener((status) {
+      print(controller.value);
+      if (status == AnimationStatus.dismissed) {
+        //controller.forward();
+        print("dismissed!!!!!!!!!");
+      }
+    });
+
     return Scaffold(
       body: Column(
         children: [
@@ -97,7 +132,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                 SizedBox(
                   height: 20,
                 ),
-                useractive(),
+                useractive(email),
                 SizedBox(
                   height: 8,
                 ),
@@ -177,7 +212,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         });
   }
 
-  Widget useractive() {
+  Widget useractive(String email) {
     return Container(
       child: Row(
         children: [
@@ -192,7 +227,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
             width: 7,
           ),
           Text(
-            "abcabc1111",
+            email,
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           Expanded(
@@ -205,11 +240,12 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                         if (controller.isAnimating)
                           controller.stop();
                         else {
+                          // controller.forward();
                           controller.reverse(
                               from: controller.value == 0.0
                                   ? 1.0
                                   : controller.value);
-                              
+
                         }
                       },
                       style: OutlinedButton.styleFrom(

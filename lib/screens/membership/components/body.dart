@@ -1,14 +1,75 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/repository/repository.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 
 class Body extends StatefulWidget {
-  const Body({Key? key}) : super(key: key);
+  final String email;
+  const Body({Key? key, required this.email}) : super(key: key);
 
   @override
   _BodyState createState() => _BodyState();
 }
 
 class _BodyState extends State<Body> {
+  final _mobileController1 = TextEditingController();
+  final _mobileController2 = TextEditingController();
+  final _mobileController3 = TextEditingController();
+  final _idController = TextEditingController();
+  final _pinController = TextEditingController();
+  final _recommenderController = TextEditingController();
+  final _userRepository = UserRepository();
+
+  _onSignUpButtonPressed(String email, String mobile1, String mobile2, String mobile3, String id, String pin, String recommender) async {
+
+    print(email);
+    print(mobile1);
+    print(mobile2);
+    print(mobile3);
+    print(id);
+    print(pin);
+    print(recommender);
+
+    if (pin == '') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 2),
+        content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text("PIN을 입력하세요.", style: TextStyle(fontSize: 18))]),
+        backgroundColor: Colors.red,
+      ));
+      // _passwordController.text = "";
+    } else if (id == '') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 2),
+        content: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+          Text("id를 입력하세요.", style: TextStyle(fontSize: 18))
+        ]),
+        backgroundColor: Colors.red,
+      ));
+
+      // _passwordController2.text = "";
+    } else if (mobile1 == '' || mobile2 == '' || mobile3 == '') {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        duration: Duration(seconds: 2),
+        content: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [Text("휴대폰번호를 입력하세요.", style: TextStyle(fontSize: 18))]),
+        backgroundColor: Colors.red,
+      ));
+    } else {
+      String phone = mobile1 + "-" + mobile2 + "-" + mobile3;
+
+      final String user = await _userRepository.signUp(email, "", phone, "", pin, recommender, id);
+      if(user == email) {
+        _userRepository.persisteUser(email);
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return MainScreen();
+        }));
+      }
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -27,13 +88,13 @@ class _BodyState extends State<Body> {
             child: Column(
               children: <Widget>[
                 SizedBox(height: 40),
-                email(),
+                email(widget.email),
                 SizedBox(height: 20),
-                phonenumber(),
+                phonenumber(_mobileController1, _mobileController2, _mobileController3),
                 SizedBox(height: 20),
-                input(),
+                input(_idController, _pinController, _recommenderController),
                 SizedBox(height: 50),
-                inviteButton(context),
+                inviteButton(_onSignUpButtonPressed, widget.email,  _mobileController1, _mobileController2, _mobileController3, _idController, _pinController, _recommenderController),
               ],
             ),
           ),
@@ -43,7 +104,7 @@ class _BodyState extends State<Body> {
   }
 }
 
-Widget email() {
+Widget email(String email) {
   return Column(
     children: [
       Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
@@ -69,7 +130,7 @@ Widget email() {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),
               child: Text(
-                "User@gmail.com",
+                email,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
               ),
             ),
@@ -80,7 +141,7 @@ Widget email() {
   );
 }
 
-Widget phonenumber() {
+Widget phonenumber(TextEditingController _mobileController1, TextEditingController _mobileController2, TextEditingController _mobileController3) {
   return Column(children: [
     Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
       Padding(
@@ -103,6 +164,7 @@ Widget phonenumber() {
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextFormField(
+            controller: _mobileController1,
             style: TextStyle(color: Colors.black, fontSize: 16),
             decoration: InputDecoration(
                 contentPadding:
@@ -126,6 +188,7 @@ Widget phonenumber() {
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextFormField(
+            controller: _mobileController2,
             style: TextStyle(color: Colors.black, fontSize: 16),
             decoration: InputDecoration(
                 contentPadding:
@@ -149,6 +212,7 @@ Widget phonenumber() {
             borderRadius: BorderRadius.circular(10),
           ),
           child: TextFormField(
+            controller: _mobileController3,
             style: TextStyle(color: Colors.black, fontSize: 16),
             decoration: InputDecoration(
                 contentPadding:
@@ -170,7 +234,7 @@ Widget phonenumber() {
   ]);
 }
 
-Widget input() {
+Widget input(TextEditingController _idController, TextEditingController _pinController, TextEditingController _recommenderController) {
   return Column(children: [
     Row(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -188,6 +252,7 @@ Widget input() {
     Container(
       height: 55,
       child: TextFormField(
+        controller: _idController,
         style: TextStyle(color: Colors.black, fontSize: 18),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
@@ -221,6 +286,7 @@ Widget input() {
     Container(
       height: 55,
       child: TextFormField(
+        controller : _pinController,
         style: TextStyle(color: Colors.black, fontSize: 18),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
@@ -254,6 +320,7 @@ Widget input() {
     Container(
       height: 55,
       child: TextFormField(
+        controller : _recommenderController,
         style: TextStyle(color: Colors.black, fontSize: 18),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
@@ -271,17 +338,25 @@ Widget input() {
   ]);
 }
 
-Widget inviteButton(context) {
+Widget inviteButton(Function _onSignUpButtonPressed, email,
+    TextEditingController _mobileController1, TextEditingController _mobileController2, TextEditingController _mobileController3,
+    TextEditingController _idController, TextEditingController _pinController, TextEditingController _recommenderController) {
   return ElevatedButton(
     onPressed: () {
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) {
-            return MainScreen();
-          },
-        ),
-      );
+      // _onSignUpButtonPressed(String email, String mobile1, String mobile2, String mobile3, String id, String pin, String recommender) {
+
+      onPressed: _onSignUpButtonPressed(email, _mobileController1.text, _mobileController2.text, _mobileController3.text
+          ,_idController.text, _pinController.text, _recommenderController.text);
+
+
+      // Navigator.push(
+      //   context,
+      //   MaterialPageRoute(
+      //     builder: (context) {
+      //       return MainScreen();
+      //     },
+      //   ),
+      // );
     },
     style: ElevatedButton.styleFrom(
         primary: Colors.black,
@@ -294,3 +369,5 @@ Widget inviteButton(context) {
     ),
   );
 }
+
+

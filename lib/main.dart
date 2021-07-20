@@ -8,7 +8,7 @@ import 'package:flutter_miningwallet/screens/Top100/BuildTop.dart';
 import 'package:flutter_miningwallet/screens/introScreen/introScreen.dart';
 import 'package:flutter_miningwallet/screens/membership/components/body.dart';
 import 'package:flutter_miningwallet/screens/membership/membership.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
 
 void main() {
   runApp(MyApp());

@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/screens/membership/components/body.dart';
 
 class BuildMembership extends StatefulWidget {
-  const BuildMembership({Key? key}) : super(key: key);
+  final String email;
+
+  const BuildMembership({Key? key, required this.email}) : super(key: key);
 
   @override
   _BuildMembershipState createState() => _BuildMembershipState();
@@ -36,7 +38,7 @@ class _BuildMembershipState extends State<BuildMembership> {
                 ),
               ),
             ),
-            Body(),
+            Body(email: widget.email),
           ],
         ));
   }

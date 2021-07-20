@@ -1,8 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/repository/repository.dart';
+import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:flutter_miningwallet/screens/membership/membership.dart';
 import 'package:flutter_miningwallet/widgets/Panel_widget/Panelbody.dart';
 import 'package:flutter_miningwallet/widgets/Panel_widget/Panel_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -14,6 +19,7 @@ class IntroScreen extends StatefulWidget {
 
 class _IntroScreenState extends State<IntroScreen> {
   final panelController = PanelController();
+  final userRepository = UserRepository();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -68,10 +74,12 @@ class _IntroScreenState extends State<IntroScreen> {
                 ]),
             child: OutlinedButton(
               onPressed: () {
-                  // pressSignInGoogle();
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return BuildMembership();
-                }));
+                // signOut();
+                signInWithGoogle();
+
+                // Navigator.push(context, MaterialPageRoute(builder: (context) {
+                //   return BuildMembership();
+                // }));
               },
               child: Row(
                 children: <Widget>[
@@ -115,9 +123,36 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  // void pressSignInGoogle() {
-  //   FirebaseAuth auth = FirebaseAuth.instance;
-  //   GoogleSignIn googleSignIn = GoogleSignIn();
-  //
-  // }
+  Future<UserCredential> signInWithGoogle() async {
+    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    String email = await userRepository.getUser(googleUser.email);
+    if(email != null) {
+      userRepository.persisteUser(email);
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return MainScreen();
+      }));
+
+    }else {
+        Navigator.push(context, MaterialPageRoute(builder: (context) {
+          return BuildMembership(email: googleUser.email);
+        }));
+    }
+    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+    final OAuthCredential credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
+  Future<void> signOut() async {
+    await Firebase.initializeApp();
+
+    try {
+      await FirebaseAuth.instance.signOut();
+      print("Success");
+    } catch (e) {
+      print(e.toString());
+    }
+  }
 }
