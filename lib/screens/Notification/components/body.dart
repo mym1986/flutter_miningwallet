@@ -86,7 +86,7 @@ Widget ourData() {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Welcome Korea GGM",
+            "Welcome Korea WBit",
             style: TextStyle(
                 fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold),
           ),

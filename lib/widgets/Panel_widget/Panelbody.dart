@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/repository/repository.dart';
 import 'package:flutter_miningwallet/screens/Invite/invite.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
@@ -11,13 +12,14 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 class PanelWidget extends StatelessWidget {
   final ScrollController controller;
   final PanelController panelController;
-
+  final String email;
+  final String userId;
   const PanelWidget(
-      {Key? key, required this.controller, required this.panelController})
+      {Key? key, required this.controller, required this.panelController, required this.email, required this.userId})
       : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: EdgeInsets.zero,
       child: Column(children: [
@@ -29,7 +31,7 @@ class PanelWidget extends StatelessWidget {
         SizedBox(
           height: 30,
         ),
-        UserInfo(),
+        UserInfo(email: email, userId: userId),
         SizedBox(
           height: 35,
         ),
@@ -142,7 +144,9 @@ class BuildIcons extends StatelessWidget {
 }
 
 class UserInfo extends StatelessWidget {
-  const UserInfo({Key? key}) : super(key: key);
+  final String email;
+  final String userId;
+  const UserInfo({Key? key, required this.email, required this.userId}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -160,7 +164,7 @@ class UserInfo extends StatelessWidget {
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 SizedBox(height: 25),
                 Text(
-                  "abcabc123",
+                  userId,
                   style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.bold,
@@ -170,7 +174,7 @@ class UserInfo extends StatelessWidget {
                   height: 15,
                 ),
                 Text(
-                  "aaa@gamil.com",
+                  email,
                   style: TextStyle(color: Colors.white, fontSize: 18),
                 )
               ]),

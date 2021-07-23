@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/repository/CoinRepository.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -8,6 +9,16 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+
+  final coinRepository = CoinRepository();
+  List<dynamic> top100 = [];
+  void initState() {
+    coinRepository.getTop100().then((list) => setState(() {
+      top100 = list;
+    }));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +63,7 @@ class _BodyState extends State<Body> {
           child: Container(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: buildTopListView(),
+              child: buildTopListView(top100),
             ),
           ),
         ),
@@ -61,7 +72,7 @@ class _BodyState extends State<Body> {
   }
 }
 
-Widget buildTopListView() {
+Widget buildTopListView(List<dynamic> top100) {
   return ListView.separated(
       separatorBuilder: (context, index) {
         return Divider(
@@ -69,7 +80,7 @@ Widget buildTopListView() {
           height: 0,
         );
       },
-      itemCount: 100,
+      itemCount: top100.length,
       itemBuilder: (_, index) {
         return ListTile(
           leading:
@@ -85,7 +96,7 @@ Widget buildTopListView() {
           title: Row(
             children: [
               Text(
-                "Nik Iv",
+                top100[index]["email"],
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 19,
@@ -98,7 +109,7 @@ Widget buildTopListView() {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                "708.55000000",
+                top100[index]["amount"].toString(),
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 17,

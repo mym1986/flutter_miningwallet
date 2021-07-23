@@ -1,16 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/constants.dart';
-import 'package:flutter_miningwallet/screens/Invite/invite.dart';
-import 'package:flutter_miningwallet/screens/MainScreen/mainScreen.dart';
-import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
-import 'package:flutter_miningwallet/screens/Notification/notification.dart';
-import 'package:flutter_miningwallet/screens/Top100/BuildTop.dart';
 import 'package:flutter_miningwallet/screens/introScreen/introScreen.dart';
-import 'package:flutter_miningwallet/screens/membership/components/body.dart';
-import 'package:flutter_miningwallet/screens/membership/membership.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
+void main() async {
   runApp(MyApp());
 }
 

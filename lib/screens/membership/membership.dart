@@ -14,6 +14,7 @@ class _BuildMembershipState extends State<BuildMembership> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: Colors.black,
         body: Column(
           children: [

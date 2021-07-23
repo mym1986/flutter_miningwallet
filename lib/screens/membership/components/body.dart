@@ -21,14 +21,6 @@ class _BodyState extends State<Body> {
 
   _onSignUpButtonPressed(String email, String mobile1, String mobile2, String mobile3, String id, String pin, String recommender) async {
 
-    print(email);
-    print(mobile1);
-    print(mobile2);
-    print(mobile3);
-    print(id);
-    print(pin);
-    print(recommender);
-
     if (pin == '') {
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
         duration: Duration(seconds: 2),
@@ -169,7 +161,7 @@ Widget phonenumber(TextEditingController _mobileController1, TextEditingControll
             decoration: InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 32, vertical: 15),
-                hintText: '010',
+                //hintText: '010',
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -193,7 +185,7 @@ Widget phonenumber(TextEditingController _mobileController1, TextEditingControll
             decoration: InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 34, vertical: 16),
-                hintText: '7777',
+                //hintText: '7777',
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -217,7 +209,7 @@ Widget phonenumber(TextEditingController _mobileController1, TextEditingControll
             decoration: InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 34, vertical: 16),
-                hintText: '7777',
+                //hintText: '7777',
                 hintStyle: TextStyle(fontWeight: FontWeight.bold),
                 focusedBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -256,7 +248,7 @@ Widget input(TextEditingController _idController, TextEditingController _pinCont
         style: TextStyle(color: Colors.black, fontSize: 18),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-            hintText: 'abcabc111',
+            //hintText: 'abcabc111',
             hintStyle: TextStyle(fontWeight: FontWeight.bold),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -290,7 +282,7 @@ Widget input(TextEditingController _idController, TextEditingController _pinCont
         style: TextStyle(color: Colors.black, fontSize: 18),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-            hintText: '123456',
+            //hintText: '123456',
             hintStyle: TextStyle(fontWeight: FontWeight.bold),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -324,7 +316,7 @@ Widget input(TextEditingController _idController, TextEditingController _pinCont
         style: TextStyle(color: Colors.black, fontSize: 18),
         decoration: InputDecoration(
             contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 18),
-            hintText: 'gmcadmin',
+            //hintText: 'gmcadmin',
             hintStyle: TextStyle(fontWeight: FontWeight.bold),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
@@ -345,7 +337,7 @@ Widget inviteButton(Function _onSignUpButtonPressed, email,
     onPressed: () {
       // _onSignUpButtonPressed(String email, String mobile1, String mobile2, String mobile3, String id, String pin, String recommender) {
 
-      onPressed: _onSignUpButtonPressed(email, _mobileController1.text, _mobileController2.text, _mobileController3.text
+      _onSignUpButtonPressed(email, _mobileController1.text, _mobileController2.text, _mobileController3.text
           ,_idController.text, _pinController.text, _recommenderController.text);
 
 

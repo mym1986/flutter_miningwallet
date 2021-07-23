@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/repository/CoinRepository.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/components/customTimer.dart';
 import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
 import 'package:flutter_miningwallet/screens/Notification/notification.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
+import '../mainscreen.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -13,34 +16,38 @@ class Body extends StatefulWidget {
 
 class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   late AnimationController controller;
-  final FlutterSecureStorage storage = FlutterSecureStorage();
-
-  Future<bool> hasValue() async{
-    var value = await storage.read(key: 'Value');
-    if(value != null){
-      return true;
-    }else{
-      return false;
-    }
-  }
+  final _coinRepository = CoinRepository();
 
   String get timerString {
     Duration duration = controller.duration! * controller.value;
-    if(hasValue() == true) {
-      duration = controller.duration! * controller.value;
-    }
-
     return '${duration.inMinutes}m${(duration.inSeconds % 60).toString().padLeft(2, '0')}s';
   }
 
   String email = "";
-
+  double value = 1.0;
+  bool isMining = false;
+  double myValue = 0.0;
+  int todayCount = 0;
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: Duration(seconds: 10/*minutes: 1*/));
+    controller = AnimationController(vsync: this, duration: Duration(/*seconds: 10*/minutes: 10));
     _getEmail().then((val) => setState(() {
       email = val.toString();
+      _coinRepository.getMining(val.toString(), 0.05)
+          .then((result) => setState(() {
+              if(double.parse(result["miningValue"]) > 0) {
+                value = double.parse(result["miningValue"]);
+              }
+              if(double.parse(result["amount"]) > 0) {
+                myValue = double.parse(result["amount"]);
+              }
+              if(int.parse(result["todayCount"]) > 0) {
+                todayCount = int.parse(result["todayCount"]);
+              }
+              controller.reverse(from: 1 - value);
+              // controller.value = 1 - value;
+      }));
     }));
   }
 
@@ -50,15 +57,36 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
     return await storage.read(key: "User");
   }
 
+  Future<bool> _startMining() async{
+    Map resultMap = await _coinRepository.updateMining(email, 0.05);
+    myValue = resultMap["value"];
+    return true;
+  }
+
+  Future<bool> _getMining() async{
+    Map resultMap = await _coinRepository.getMining(email, 0.05);
+    myValue = resultMap["value"];
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return MainScreen();
+    }));
+    return true;
+  }
+
+  Future<void> _setStatus() async{
+    //await _coinRepository.getMining(email, 0.05);
+  }
+
   @override
   Widget build(BuildContext context) {
 
     var animation = CurvedAnimation(parent: controller, curve: Curves.bounceInOut);
-    animation.addStatusListener((status) {
-      print(controller.value);
-      if (status == AnimationStatus.dismissed) {
-        //controller.forward();
-        print("dismissed!!!!!!!!!");
+    animation.addStatusListener((status) async {
+      print("status : " + status.toString());
+      print("controller.value : " + controller.value.toString());
+      if (status == AnimationStatus.completed) {
+        await _startMining();
+      } else if (status == AnimationStatus.dismissed) {
+        await _getMining();
       }
     });
 
@@ -75,7 +103,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
             child: Row(
               children: [
                 Text(
-                  "GGM",
+                  "WBit",
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 SizedBox(
@@ -173,10 +201,10 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "My Making",
+              "My Making(" + todayCount.toString() + "/10)",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            Text("0.0500000",
+            Text(myValue.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 20)),
           ],
         ),
@@ -185,31 +213,45 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   }
 
   Widget countdowntimer() {
-    return AnimatedBuilder(
-        animation: controller,
-        builder: (context, child) {
-          return CustomPaint(
-            foregroundPainter: CustomTimerPainter(animation: controller),
-            child: Container(
-              width: 200,
-              height: 200,
-              // color: Colors.black,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    "Claim GGM",
-                    style: TextStyle(fontSize: 23),
-                  ),
-                  Text(
-                    timerString,
-                    style: TextStyle(fontSize: 23),
-                  )
-                ],
+    return GestureDetector(
+      onTap: () {
+        if (!controller.isAnimating && todayCount < 10) {
+          controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
+        }
+      },
+      child: AnimatedBuilder(
+          animation: controller,
+          builder: (context, child) {
+            return CustomPaint(
+              foregroundPainter: CustomTimerPainter(animation: controller),
+              child: Container(
+                width: 200,
+                height: 200,
+                // color: Colors.black,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Claim WBit",
+                      style: TextStyle(fontSize: 23),
+                    ),
+                    Text(
+                      timerString,
+                      style: TextStyle(fontSize: 23),
+                    ),
+                    // GestureDetector(
+                    //   onTap: () {
+                    //     if (!controller.isAnimating && todayCount < 10) {
+                    //       controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
+                    //     }
+                    //   },
+                    // )
+                  ],
+                ),
               ),
-            ),
-          );
-        });
+            );
+          }),
+    );
   }
 
   Widget useractive(String email) {
@@ -237,15 +279,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                   builder: (context, child) {
                     return OutlinedButton(
                       onPressed: () {
-                        if (controller.isAnimating)
-                          controller.stop();
-                        else {
-                          // controller.forward();
-                          controller.reverse(
-                              from: controller.value == 0.0
-                                  ? 1.0
-                                  : controller.value);
-
+                        if (!controller.isAnimating && todayCount < 10) {
+                          controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
                         }
                       },
                       style: OutlinedButton.styleFrom(
@@ -253,7 +288,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                           side: BorderSide(color: Colors.black),
                           padding: EdgeInsets.all(7)),
                       child: Text(
-                        controller.isAnimating ? "STOP" : "ACTIVE",
+                        "ACTIVE",
+                        // controller.isAnimating ? "ACTIVE" : "STOP",
                         style: TextStyle(fontSize: 16, color: Colors.black),
                       ),
                     );
@@ -358,7 +394,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "GGM │ USD",
+              "WBit │ USD",
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             Text(
@@ -389,7 +425,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             Text(
-              "64.565",
+              "64,565",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ],

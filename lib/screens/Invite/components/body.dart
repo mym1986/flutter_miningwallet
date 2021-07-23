@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/constants.dart';
+import 'package:flutter_miningwallet/repository/CoinRepository.dart';
+import 'package:flutter_miningwallet/repository/repository.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -9,6 +11,18 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
+  final userRepository = UserRepository();
+
+  List<dynamic> myReferralList = [];
+  void initState() {
+    userRepository.getStorageUserEmail().then((email) => setState(() {
+      userRepository.getMyReferral(email).then((list) => setState(() {
+        myReferralList = list;
+      }));
+    }));
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -70,7 +84,7 @@ class _BodyState extends State<Body> {
               ),
             ],
           ),
-          myReferral(),
+          myReferral(myReferralList),
         ],
       ),
     );
@@ -107,7 +121,7 @@ Widget referFriends() {
                         height: 15,
                       ),
                       Text(
-                        "on Successful referral\nyou will get 1 GGM",
+                        "on Successful referral\nyou will get 1 WBit",
                         style: TextStyle(
                           fontSize: 15,
                         ),
@@ -177,7 +191,7 @@ Widget referFriends() {
   );
 }
 
-Widget myReferral() {
+Widget myReferral(List<dynamic> myReferralList) {
   return Expanded(
     child: Padding(
       padding: const EdgeInsets.symmetric(horizontal: 22,),
@@ -189,7 +203,7 @@ Widget myReferral() {
             height: 0,
           );
         },
-        itemCount: 50,
+        itemCount: myReferralList.length,
         itemBuilder: (_, index) {
           return ListTile(
             leading: Column(
@@ -202,10 +216,10 @@ Widget myReferral() {
               ],
             ),
             title: Text(
-              "referyourfrieneds Mavin",
+              myReferralList[index]["userId"],
               style: TextStyle(fontSize: 16),
             ),
-            trailing: Text("2021-01-01"),
+            trailing: Text(myReferralList[index]["createdAt"]),
           );
         },
       ),

@@ -44,7 +44,7 @@ class _IntroScreenState extends State<IntroScreen> {
                     height: 10,
                   ),
                   Text(
-                    "GGM\nMining",
+                    "WBit\nMining",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                         color: Colors.black,
@@ -125,7 +125,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   Future<UserCredential> signInWithGoogle() async {
     final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-    String email = await userRepository.getUser(googleUser.email);
+    String email = await userRepository.getUserEmail(googleUser.email);
     if(email != null) {
       userRepository.persisteUser(email);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
