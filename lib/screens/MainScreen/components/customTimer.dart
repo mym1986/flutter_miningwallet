@@ -32,6 +32,23 @@ class CustomTimerPainter extends CustomPainter {
     double progress = (1.0 - animation.value) *2*pi;
     canvas.drawArc(Offset.zero & size, pi*1.5 , progress, false, animationArc);
 
+    final offset = Offset(
+      size.center(Offset.zero).dx +
+          size.width / 2.0 * cos(-pi / 2 + (1.0 - animation.value) * 2 * pi),
+      size.center(Offset.zero).dy +
+          size.width / 2.0 * sin(-pi / 2 + (1.0 - animation.value) * 2 * pi),
+    );
+
+    canvas.drawCircle(
+      offset,
+      15,
+      Paint()
+        ..strokeWidth = 5
+        ..color = Colors.grey.shade700
+        ..style = PaintingStyle.fill
+    );
+
+
   }
 
   @override

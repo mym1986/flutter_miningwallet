@@ -31,39 +31,40 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    controller = AnimationController(vsync: this, duration: Duration(/*seconds: 10*/minutes: 10));
+    controller = AnimationController(
+        vsync: this, duration: Duration(/*seconds: 10*/ minutes: 10));
     _getEmail().then((val) => setState(() {
-      email = val.toString();
-      _coinRepository.getMining(val.toString(), 0.05)
-          .then((result) => setState(() {
-              if(double.parse(result["miningValue"]) > 0) {
-                value = double.parse(result["miningValue"]);
-              }
-              if(double.parse(result["amount"]) > 0) {
-                myValue = double.parse(result["amount"]);
-              }
-              if(int.parse(result["todayCount"]) > 0) {
-                todayCount = int.parse(result["todayCount"]);
-              }
-              controller.reverse(from: 1 - value);
-              // controller.value = 1 - value;
-      }));
-    }));
+          email = val.toString();
+          _coinRepository
+              .getMining(val.toString(), 0.05)
+              .then((result) => setState(() {
+                    if (double.parse(result["miningValue"]) > 0) {
+                      value = double.parse(result["miningValue"]);
+                    }
+                    if (double.parse(result["amount"]) > 0) {
+                      myValue = double.parse(result["amount"]);
+                    }
+                    if (int.parse(result["todayCount"]) > 0) {
+                      todayCount = int.parse(result["todayCount"]);
+                    }
+                    controller.reverse(from: 1 - value);
+                    // controller.value = 1 - value;
+                  }));
+        }));
   }
 
-
-  Future<String> _getEmail() async{
+  Future<String> _getEmail() async {
     final FlutterSecureStorage storage = FlutterSecureStorage();
     return await storage.read(key: "User");
   }
 
-  Future<bool> _startMining() async{
+  Future<bool> _startMining() async {
     Map resultMap = await _coinRepository.updateMining(email, 0.05);
     myValue = resultMap["value"];
     return true;
   }
 
-  Future<bool> _getMining() async{
+  Future<bool> _getMining() async {
     Map resultMap = await _coinRepository.getMining(email, 0.05);
     myValue = resultMap["value"];
     Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -72,14 +73,14 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
     return true;
   }
 
-  Future<void> _setStatus() async{
+  Future<void> _setStatus() async {
     //await _coinRepository.getMining(email, 0.05);
   }
 
   @override
   Widget build(BuildContext context) {
-
-    var animation = CurvedAnimation(parent: controller, curve: Curves.bounceInOut);
+    var animation =
+        CurvedAnimation(parent: controller, curve: Curves.bounceInOut);
     animation.addStatusListener((status) async {
       print("status : " + status.toString());
       print("controller.value : " + controller.value.toString());
@@ -96,56 +97,70 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           SizedBox(
             height: 15,
           ),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: 25, vertical: 15),
-            height: 50,
-            // color: Colors.black,
-            child: Row(
-              children: [
-                Text(
-                  "WBit",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                SizedBox(
-                  width: 5,
-                ),
-                Text(
-                  "Coin Faucent",
-                  style: TextStyle(fontSize: 20),
-                ),
-                SizedBox(
-                  width: 79,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return Notifications();
-                        },
-                      ),
-                    );
-                  },
-                  icon: Image.asset("assets/icons/notification.png"),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) {
-                          return MyPage();
-                        },
-                      ),
-                    );
-                  },
-                  icon: Image.asset(
-                    "assets/icons/mypage.png",
-                    height: 35,
+          Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: Container(
+              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 13),
+              height: 50,
+              // color: Colors.black,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(
+                    child: Row(
+                      children: [
+                        Text(
+                          "WBit",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          "Coin Faucent",
+                          style: TextStyle(fontSize: 20),
+                        ),
+                      ],
+                    ),
                   ),
-                )
-              ],
+                  Container(
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return Notifications();
+                                },
+                              ),
+                            );
+                          },
+                          icon: Image.asset("assets/icons/notification.png"),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) {
+                                  return MyPage();
+                                },
+                              ),
+                            );
+                          },
+                          icon: Image.asset(
+                            "assets/icons/mypage.png",
+                            height: 35,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
           Padding(
@@ -213,45 +228,54 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   }
 
   Widget countdowntimer() {
-    return GestureDetector(
-      onTap: () {
-        if (!controller.isAnimating && todayCount < 10) {
-          controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
-        }
-      },
-      child: AnimatedBuilder(
-          animation: controller,
-          builder: (context, child) {
-            return CustomPaint(
-              foregroundPainter: CustomTimerPainter(animation: controller),
-              child: Container(
-                width: 200,
-                height: 200,
-                // color: Colors.black,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      "Claim WBit",
-                      style: TextStyle(fontSize: 23),
-                    ),
-                    Text(
-                      timerString,
-                      style: TextStyle(fontSize: 23),
-                    ),
-                    // GestureDetector(
-                    //   onTap: () {
-                    //     if (!controller.isAnimating && todayCount < 10) {
-                    //       controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
-                    //     }
-                    //   },
-                    // )
-                  ],
+    return
+        // GestureDetector(
+        //   onTap: () {
+        //     if (!controller.isAnimating && todayCount < 10) {
+        //       controller.reverse(
+        //           from: controller.value == 0.0 ? 1.0 : controller.value);
+        //     }
+        //   },
+        // child:
+        AnimatedBuilder(
+            animation: controller,
+            builder: (context, child) {
+              return CustomPaint(
+                foregroundPainter: CustomTimerPainter(animation: controller),
+                child: Container(
+                  width: 210,
+                  height: 210,
+                  // color: Colors.black,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/mining.png",
+                        height: 80,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            primary: Colors.black, onPrimary: Colors.white),
+                        onPressed: () {
+                          if (!controller.isAnimating && todayCount < 10) {
+                            controller.reverse(
+                                from: controller.value == 0.0
+                                    ? 1.0
+                                    : controller.value);
+                          }
+                        },
+                        child: Text(
+                            controller.isAnimating
+                                ? timerString
+                                : "Mining Start",
+                            style:
+                                TextStyle(color: Colors.white, fontSize: 18)),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            );
-          }),
-    );
+              );
+            });
   }
 
   Widget useractive(String email) {
@@ -277,22 +301,42 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               AnimatedBuilder(
                   animation: controller,
                   builder: (context, child) {
-                    return OutlinedButton(
-                      onPressed: () {
-                        if (!controller.isAnimating && todayCount < 10) {
-                          controller.reverse(from: controller.value == 0.0 ? 1.0 : controller.value);
-                        }
-                      },
-                      style: OutlinedButton.styleFrom(
-                          primary: Colors.black,
-                          side: BorderSide(color: Colors.black),
-                          padding: EdgeInsets.all(7)),
-                      child: Text(
-                        "ACTIVE",
-                        // controller.isAnimating ? "ACTIVE" : "STOP",
-                        style: TextStyle(fontSize: 16, color: Colors.black),
+                    return Container(
+                      height: 40,
+                      width: 70,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.black, width: 2),
+                          borderRadius: BorderRadius.circular(10)),
+                      child: Center(
+                        child: Text(
+                          controller.isAnimating ? "ACTIVE" : "STOP",
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
                       ),
                     );
+                    // OutlinedButton(
+                    //   onPressed: () {
+                    //     if (!controller.isAnimating && todayCount < 10) {
+                    //       controller.reverse(
+                    //           from: controller.value == 0.0
+                    //               ? 1.0
+                    //               : controller.value);
+                    //     }
+                    //   },
+                    //   style: OutlinedButton.styleFrom(
+                    //       primary: Colors.black,
+                    //       side: BorderSide(color: Colors.black),
+                    //       padding: EdgeInsets.all(7)),
+                    //   child: Text(
+                    //     "ACTIVE",
+                    //     // controller.isAnimating ? "ACTIVE" : "STOP",
+                    //     style: TextStyle(fontSize: 16, color: Colors.black),
+                    //   ),
+                    // );
                   }),
             ]),
           ),
