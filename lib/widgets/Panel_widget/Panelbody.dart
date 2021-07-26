@@ -6,6 +6,7 @@ import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
 import 'package:flutter_miningwallet/screens/Notification/notification.dart';
 import 'package:flutter_miningwallet/screens/Top100/BuildTop.dart';
+import 'package:flutter_miningwallet/screens/Transaction/Transaction.dart';
 import 'package:flutter_miningwallet/screens/introScreen/introScreen.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
@@ -133,7 +134,7 @@ class BuildIcons extends StatelessWidget {
               ),
             ),
             Text(
-              "MINING",
+              "Exchange",
               style: TextStyle(fontSize: 12),
             )
           ],
@@ -221,7 +222,7 @@ class BuildMenu extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Row(
               children: [
@@ -249,7 +250,7 @@ class BuildMenu extends StatelessWidget {
               ],
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Row(children: [
               Image.asset(
@@ -274,7 +275,32 @@ class BuildMenu extends StatelessWidget {
               ),
             ]),
             SizedBox(
-              height: 15,
+              height: 10,
+            ),
+            Row(children: [
+              Image.asset(
+                "assets/icons/notification.png",
+                height: 25,
+              ),
+              SizedBox(
+                width: 15,
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) {
+                    return BuildTransaction();
+                  }));
+                },
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
+                  onSurface: Colors.blue,
+                  textStyle: TextStyle(fontSize: 24),
+                ),
+                child: Text("Mining Transaction"),
+              ),
+            ]),
+            SizedBox(
+              height: 10,
             ),
             Row(
               children: [

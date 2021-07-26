@@ -305,14 +305,14 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                       height: 40,
                       width: 70,
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black, width: 2),
-                          borderRadius: BorderRadius.circular(10)),
+                          color: controller.isAnimating ? Colors.black : Colors.red.shade600, 
+                        borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
                           controller.isAnimating ? "ACTIVE" : "STOP",
                           style: TextStyle(
                             fontSize: 16,
-                            color: Colors.black,
+                            color: Colors.white,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
