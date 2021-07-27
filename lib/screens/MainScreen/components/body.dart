@@ -100,7 +100,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
           Padding(
             padding: const EdgeInsets.only(left: 10),
             child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 10, vertical: 13),
+              margin: EdgeInsets.symmetric(horizontal: 12, vertical: 13),
               height: 50,
               // color: Colors.black,
               child: Row(
@@ -139,22 +139,6 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                             );
                           },
                           icon: Image.asset("assets/icons/notification.png"),
-                        ),
-                        IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) {
-                                  return MyPage();
-                                },
-                              ),
-                            );
-                          },
-                          icon: Image.asset(
-                            "assets/icons/mypage.png",
-                            height: 35,
-                          ),
                         ),
                       ],
                     ),

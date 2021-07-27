@@ -7,6 +7,10 @@ class Body extends StatefulWidget {
   _BodyState createState() => _BodyState();
 }
 
+DateTime now = DateTime.now();
+DateTime currentTime =
+    new DateTime(now.year, now.month, now.day, now.hour, now.minute);
+
 class _BodyState extends State<Body> {
   @override
   Widget build(BuildContext context) {
@@ -48,6 +52,27 @@ class _BodyState extends State<Body> {
             ],
           ),
         ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Container(
+              width: 348,
+              decoration: BoxDecoration(
+                // color: Colors.black,
+                border:
+                    Border(bottom: BorderSide(color: Colors.grey, width: 2)),
+              ),
+              margin: EdgeInsets.symmetric(horizontal: 22),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  "My Mining Transaction",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ),
+          ],
+        ),
         Expanded(
           child: Container(
             child: Padding(
@@ -63,6 +88,7 @@ class _BodyState extends State<Body> {
 
 Widget buildTopListView() {
   return ListView.separated(
+      padding: EdgeInsets.all(0),
       separatorBuilder: (context, index) {
         return Divider(
           color: Colors.grey,
@@ -70,12 +96,12 @@ Widget buildTopListView() {
         );
       },
       itemCount: 100,
-      itemBuilder: (_, index) {
+      itemBuilder: (BuildContext context, int index) {
         return ListTile(
           leading:
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              "${index+1}",
+              "$currentTime",
               style: TextStyle(fontSize: 23),
             ),
             SizedBox(

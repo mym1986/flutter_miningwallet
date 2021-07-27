@@ -74,6 +74,7 @@ class _BodyState extends State<Body> {
 
 Widget buildTopListView(List<dynamic> top100) {
   return ListView.separated(
+    padding: EdgeInsets.all(0),
       separatorBuilder: (context, index) {
         return Divider(
           color: Colors.grey,

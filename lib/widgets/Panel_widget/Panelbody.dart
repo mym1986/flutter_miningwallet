@@ -8,6 +8,7 @@ import 'package:flutter_miningwallet/screens/Notification/notification.dart';
 import 'package:flutter_miningwallet/screens/Top100/BuildTop.dart';
 import 'package:flutter_miningwallet/screens/Transaction/Transaction.dart';
 import 'package:flutter_miningwallet/screens/introScreen/introScreen.dart';
+import 'package:flutter_miningwallet/widgets/Webview/Webview.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class PanelWidget extends StatelessWidget {
@@ -125,7 +126,7 @@ class BuildIcons extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MainScreen();
+                  return WebviewPage();
                 }));
               },
               icon: Image.asset(
@@ -279,7 +280,7 @@ class BuildMenu extends StatelessWidget {
             ),
             Row(children: [
               Image.asset(
-                "assets/icons/notification.png",
+                "assets/icons/Transaction.png",
                 height: 25,
               ),
               SizedBox(
