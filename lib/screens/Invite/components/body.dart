@@ -75,7 +75,7 @@ class _BodyState extends State<Body> {
                     border: Border(bottom:BorderSide(color: Colors.grey, width: 2)),),
                 margin: EdgeInsets.symmetric(horizontal: 22),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "My ReFerral",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
@@ -131,20 +131,18 @@ Widget referFriends() {
                 ),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 18),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    // color: Colors.black,
-                    child: Image.asset(
-                      "assets/images/GMClogo.png",
-                      height: 92,
-                    ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  // color: Colors.black,
+                  child: Image.asset(
+                    "assets/images/GMClogo.png",
+                    height: 92,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),

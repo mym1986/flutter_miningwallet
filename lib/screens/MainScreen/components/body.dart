@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/repository/CoinRepository.dart';
+import 'package:flutter_miningwallet/screens/MainScreen/components/SideBar.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/components/customTimer.dart';
 import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
 import 'package:flutter_miningwallet/screens/Notification/notification.dart';
@@ -76,7 +77,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   Future<void> _setStatus() async {
     //await _coinRepository.getMining(email, 0.05);
   }
-
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     var animation =
@@ -92,6 +93,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
     });
 
     return Scaffold(
+      key: _globalKey,
+      drawer: SideBar(),
       body: Column(
         children: [
           SizedBox(
@@ -140,6 +143,11 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                           },
                           icon: Image.asset("assets/icons/notification.png"),
                         ),
+                        IconButton(
+                            onPressed: () {
+                              _globalKey.currentState!.openDrawer();
+                            },
+                            icon: Icon(Icons.menu, size: 30)),
                       ],
                     ),
                   ),
@@ -289,8 +297,10 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                       height: 40,
                       width: 70,
                       decoration: BoxDecoration(
-                          color: controller.isAnimating ? Colors.black : Colors.red.shade600, 
-                        borderRadius: BorderRadius.circular(10)),
+                          color: controller.isAnimating
+                              ? Colors.black
+                              : Colors.red.shade600,
+                          borderRadius: BorderRadius.circular(10)),
                       child: Center(
                         child: Text(
                           controller.isAnimating ? "ACTIVE" : "STOP",
