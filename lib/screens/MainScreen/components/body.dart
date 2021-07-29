@@ -28,6 +28,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   bool isMining = false;
   double myValue = 0.0;
   int todayCount = 0;
+  double todayAmount = 0.0;
   @override
   void initState() {
     super.initState();
@@ -46,6 +47,9 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                     }
                     if (int.parse(result["todayCount"]) > 0) {
                       todayCount = int.parse(result["todayCount"]);
+                    }
+                    if (double.parse(result["todayAmount"]) > 0) {
+                      todayAmount = double.parse(result["todayAmount"]);
                     }
                     controller.reverse(from: 1 - value);
                     // controller.value = 1 - value;
@@ -219,7 +223,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               "My Making(" + todayCount.toString() + "/10)",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            Text(myValue.toString(),
+            Text(todayAmount.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 20)),
           ],
         ),
@@ -362,7 +366,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               Text("Claimed",
                   style: TextStyle(color: Colors.white, fontSize: 14)),
               SizedBox(height: 9),
-              Text("0.05000000",
+              Text(myValue.toString(),
                   style: TextStyle(color: Colors.white, fontSize: 18)),
             ],
           ),
@@ -402,7 +406,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                 Text("Referral",
                     style: TextStyle(color: Colors.white, fontSize: 14)),
                 SizedBox(height: 9),
-                Text("0.00000000",
+                Text("0.00",
                     style: TextStyle(color: Colors.white, fontSize: 18)),
               ],
             ),
@@ -442,7 +446,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             Text(
-              "0.0500000",
+              "0.05",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ],
@@ -469,7 +473,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             Text(
-              "64,565",
+              "12,562",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ],

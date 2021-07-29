@@ -22,6 +22,7 @@ class CoinRepository{
   Uri updateMiningUrl = Uri.parse('$mainUrl/mining/updateMiningStatus');
   Uri getMiningUrl = Uri.parse('$mainUrl/mining/getMiningStatus');
   Uri getMiningTop100Url = Uri.parse('$mainUrl/mining/getMiningTop100');
+  Uri getMiningHistoryUrl = Uri.parse('$mainUrl/mining/getMiningHistory');
 
   final Dio _dio = Dio();
 
@@ -68,7 +69,10 @@ class CoinRepository{
       double miningValue = map["data"]["miningValue"];
       double amount = map["data"]["amount"];
       int todayCount = map["data"]["todayCount"];
-      Map<String, String> resultMap = {"miningValue" : miningValue.toString(), "amount" : amount.toString(), "todayCount" : todayCount.toString()};
+      double todayAmount = map["data"]["todayAmount"];
+      Map<String, String> resultMap =
+        {"miningValue" : miningValue.toString(), "amount" : amount.toString(),
+          "todayCount" : todayCount.toString(), "todayAmount" : todayAmount.toString()};
       return resultMap;
     } catch (exception) {
       print(response.body);
