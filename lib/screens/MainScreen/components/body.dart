@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/repository/CoinRepository.dart';
-import 'package:flutter_miningwallet/screens/MainScreen/components/SideBar.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/components/customTimer.dart';
 import 'package:flutter_miningwallet/screens/MyPage/MyPage.dart';
 import 'package:flutter_miningwallet/screens/Notification/notification.dart';
+import 'package:flutter_miningwallet/widgets/SideBar/SideBar.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../mainscreen.dart';

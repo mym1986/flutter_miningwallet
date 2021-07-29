@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/constants.dart';
 import 'package:flutter_miningwallet/repository/CoinRepository.dart';
 import 'package:flutter_miningwallet/repository/repository.dart';
+import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
+import 'package:flutter_miningwallet/widgets/SideBar/SideBar.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -16,16 +18,20 @@ class _BodyState extends State<Body> {
   List<dynamic> myReferralList = [];
   void initState() {
     userRepository.getStorageUserEmail().then((email) => setState(() {
-      userRepository.getMyReferral(email).then((list) => setState(() {
-        myReferralList = list;
-      }));
-    }));
+          userRepository.getMyReferral(email).then((list) => setState(() {
+                myReferralList = list;
+              }));
+        }));
     super.initState();
   }
+
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
+      drawer: SideBar(),
       body: Column(
         children: [
           Container(
@@ -39,25 +45,42 @@ class _BodyState extends State<Body> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () {
+                              Navigator.push(context,
+                                  MaterialPageRoute(builder: (context) {
+                                return MainScreen();
+                              }));
+                            },
+                            icon: Image.asset(
+                              "assets/icons/left-arrow-key.png",
+                              height: 23,
+                              color: Colors.white,
+                            ),
+                            iconSize: 10,
+                          ),
+                          Text(
+                            "Invite & Earn",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 20,
+                            ),
+                          ),
+                        ],
+                      ),
                       IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Image.asset(
-                          "assets/icons/left-arrow-key.png",
-                          height: 23,
-                          color: Colors.white,
-                        ),
-                        iconSize: 10,
-                      ),
-                      Text(
-                        "Invite & Earn",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                        ),
-                      ),
+                          onPressed: () {
+                            _globalKey.currentState!.openDrawer();
+                          },
+                          icon: Icon(
+                            Icons.menu,
+                            size: 30,
+                            color: Colors.white,
+                          )),
                     ],
                   ),
                 ),
@@ -69,10 +92,12 @@ class _BodyState extends State<Body> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Container(
-                width: 348,
+                width: 367,
                 decoration: BoxDecoration(
                   // color: Colors.black,
-                    border: Border(bottom:BorderSide(color: Colors.grey, width: 2)),),
+                  border:
+                      Border(bottom: BorderSide(color: Colors.grey, width: 2)),
+                ),
                 margin: EdgeInsets.symmetric(horizontal: 22),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
@@ -192,9 +217,10 @@ Widget referFriends() {
 Widget myReferral(List<dynamic> myReferralList) {
   return Expanded(
     child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 22,),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 22,
+      ),
       child: ListView.separated(
-        
         separatorBuilder: (context, index) {
           return Divider(
             color: Colors.grey,

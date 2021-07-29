@@ -33,25 +33,26 @@ class _BuildTransactionState extends State<BuildTransaction> {
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.93;
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.12;
     return Scaffold(
-      body: SlidingUpPanel(
-          controller: panelController,
-          panelBuilder: (controller) => PanelWidget(
-              controller: controller,
-              panelController: panelController,
-              email: _email,
-              userId: _userId),
-          maxHeight: panelHeightOpen,
-          minHeight: panelHeightClosed,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey,
-              blurRadius: 4,
-              spreadRadius: 9,
-              offset: Offset(1, 8),
-            ),
-          ],
-          body: Body()),
+      // body: SlidingUpPanel(
+      //     controller: panelController,
+      //     panelBuilder: (controller) => PanelWidget(
+      //         controller: controller,
+      //         panelController: panelController,
+      //         email: _email,
+      //         userId: _userId),
+      //     maxHeight: panelHeightOpen,
+      //     minHeight: panelHeightClosed,
+      //     borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+      //     boxShadow: [
+      //       BoxShadow(
+      //         color: Colors.grey,
+      //         blurRadius: 4,
+      //         spreadRadius: 9,
+      //         offset: Offset(1, 8),
+      //       ),
+      //     ],
+          body: Body()
+          // ),
     );
   }
 }

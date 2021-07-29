@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/repository/CoinRepository.dart';
+import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
+import 'package:flutter_miningwallet/widgets/SideBar/SideBar.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -9,19 +11,22 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-
   final coinRepository = CoinRepository();
   List<dynamic> top100 = [];
   void initState() {
     coinRepository.getTop100().then((list) => setState(() {
-      top100 = list;
-    }));
+          top100 = list;
+        }));
     super.initState();
   }
+
+  GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _globalKey,
+      drawer: SideBar(),
       body: Column(children: [
         Container(
           width: double.infinity,
@@ -34,25 +39,42 @@ class _BodyState extends State<Body> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return MainScreen();
+                            }));
+                          },
+                          icon: Image.asset(
+                            "assets/icons/left-arrow-key.png",
+                            height: 23,
+                            color: Colors.white,
+                          ),
+                          iconSize: 10,
+                        ),
+                        Text(
+                          "Top 100",
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
                     IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Image.asset(
-                        "assets/icons/left-arrow-key.png",
-                        height: 23,
-                        color: Colors.white,
-                      ),
-                      iconSize: 10,
-                    ),
-                    Text(
-                      "Top 100",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 20,
-                      ),
-                    ),
+                        onPressed: () {
+                          _globalKey.currentState!.openDrawer();
+                        },
+                        icon: Icon(
+                          Icons.menu,
+                          size: 30,
+                          color: Colors.white,
+                        )),
                   ],
                 ),
               ),
@@ -74,7 +96,7 @@ class _BodyState extends State<Body> {
 
 Widget buildTopListView(List<dynamic> top100) {
   return ListView.separated(
-    padding: EdgeInsets.all(0),
+      padding: EdgeInsets.all(0),
       separatorBuilder: (context, index) {
         return Divider(
           color: Colors.grey,
@@ -87,7 +109,7 @@ Widget buildTopListView(List<dynamic> top100) {
           leading:
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              "${index+1}",
+              "${index + 1}",
               style: TextStyle(fontSize: 23),
             ),
             SizedBox(
