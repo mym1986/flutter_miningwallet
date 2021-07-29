@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 class Body extends StatefulWidget {
@@ -59,25 +57,21 @@ class _BodyState extends State<Body> {
 }
 
 Widget buildNotificationListView() {
-  return Padding(
-    padding: const EdgeInsets.only(top: 10),
-    child: ListView.builder(
+  return ListView.builder(
+      padding: EdgeInsets.only(top: 5),
       itemCount: 20,
-      itemBuilder: (context,a){
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: 5,vertical: 2),
-        child:ourData(),
-       
-      );
-      }
-    ),
-  );
+      itemBuilder: (context, a) {
+        return Container(
+          margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+          child: ourData(),
+        );
+      });
 }
 
 Widget ourData() {
   return Container(
     height: 150,
-    margin: EdgeInsets.only(top: 10,left: 20,right: 20),
+    margin: EdgeInsets.only(top: 10, left: 20, right: 20),
     decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20), color: Color(0xff6C6C72)),
     child: Padding(
