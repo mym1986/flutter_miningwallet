@@ -124,7 +124,7 @@ Widget buildTopListView() {
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
               "$currentTime",
-              style: TextStyle(fontSize: 23),
+              style: TextStyle(fontSize: 16),
             ),
             SizedBox(
               width: 30,
@@ -132,44 +132,23 @@ Widget buildTopListView() {
           ]),
           title: Row(
             children: [
-              Text(
-                "Nik Iv",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 19,
-                  fontWeight: FontWeight.bold,
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Text(
+                  "WBit",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 17,
+                  ),
                 ),
               )
             ],
           ),
-          subtitle: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              Text(
-                "708.55000000",
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 17,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
-                  "GMC",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          trailing: Image.asset(
-            "assets/icons/user.png",
-            height: 35,
+          trailing: Text(
+            "0.05",
+            style: TextStyle(fontSize: 17),
           ),
         );
       });
 }
+

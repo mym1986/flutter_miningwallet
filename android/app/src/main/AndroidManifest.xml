@@ -2,8 +2,9 @@
     package="com.example.flutter_miningwallet">
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES"/>
    <application
-        android:label="flutter_miningwallet"
-        android:icon="@mipmap/ic_launcher">
+        android:label="WBit Mining"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

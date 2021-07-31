@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class WebviewPage extends StatefulWidget {
@@ -15,6 +16,22 @@ class _WebviewPageState extends State<WebviewPage> {
       body: WebView(
         initialUrl: "https://m.naver.com",
         javascriptMode: JavascriptMode.unrestricted,
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) {
+              return MainScreen();
+            }),
+          );
+        },
+        child: Icon(
+          Icons.home,
+          color: Colors.white,
+          size: 30,
+        ),
       ),
     );
   }
