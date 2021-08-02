@@ -83,20 +83,11 @@ class _BodyState extends State<Body> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Container(
-                width: 367,
-                decoration: BoxDecoration(
-                  // color: Colors.black,
-                  border:
-                      Border(bottom: BorderSide(color: Colors.grey, width: 2)),
-                ),
-                margin: EdgeInsets.symmetric(horizontal: 22),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Text(
-                    "My Mining Transaction",
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                  ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: Text(
+                  "My Mining Transaction",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                 ),
               ),
             ],
