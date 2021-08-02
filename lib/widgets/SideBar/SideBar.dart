@@ -22,19 +22,8 @@ class _SideBarState extends State<SideBar> {
       child: Container(
         color: Colors.grey.shade800,
         child: ListView(
-          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 80),
+          padding: EdgeInsets.symmetric(horizontal: 20,vertical: 90),
           children: [
-            UserAccountsDrawerHeader(
-              accountName: Text(
-                "abcabc123",
-                style: TextStyle(fontSize: 17, color: Colors.white),
-              ),
-              accountEmail: Text(
-                "aaa@gmail.com",
-                style: TextStyle(fontSize: 17, color: Colors.white),
-              ),
-              decoration: BoxDecoration(color: Colors.grey.shade800),
-            ),
             SizedBox(height: 20),
             ListTile(
                 tileColor: Colors.green,

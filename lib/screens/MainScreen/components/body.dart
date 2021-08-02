@@ -105,10 +105,10 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
             height: 15,
           ),
           Padding(
-            padding: const EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10,top: 12),
             child: Container(
               margin: EdgeInsets.symmetric(horizontal: 12, vertical: 13),
-              height: 50,
+              height: 45,
               // color: Colors.black,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
