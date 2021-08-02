@@ -45,7 +45,8 @@ class CoinRepository{
       double miningValue = map["data"]["miningValue"];
       double amount = map["data"]["amount"];
       int todayCount = map["data"]["todayCount"];
-      Map<String, String> resultMap = {"miningValue" : miningValue.toString(), "amount" : amount.toString(), "todayCount" : todayCount.toString()};
+      double recommendAmount = map["data"]["recommendAmount"];
+      Map<String, String> resultMap = {"miningValue" : miningValue.toString(), "amount" : amount.toString(), "todayCount" : todayCount.toString(), "recommendAmount" : recommendAmount.toString()};
       return resultMap;
     } catch (exception) {
       print(response.body);
@@ -69,10 +70,10 @@ class CoinRepository{
       double miningValue = map["data"]["miningValue"];
       double amount = map["data"]["amount"];
       int todayCount = map["data"]["todayCount"];
-      double todayAmount = map["data"]["todayAmount"];
+      double recommendAmount = map["data"]["recommendAmount"];
       Map<String, String> resultMap =
         {"miningValue" : miningValue.toString(), "amount" : amount.toString(),
-          "todayCount" : todayCount.toString(), "todayAmount" : todayAmount.toString()};
+          "todayCount" : todayCount.toString(), "recommendAmount" : recommendAmount.toString()};
       return resultMap;
     } catch (exception) {
       print(response.body);
