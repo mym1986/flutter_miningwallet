@@ -19,7 +19,7 @@ class _BuildTopState extends State<BuildTop> {
 
   void initState() {
     userRepository.getStorageUserEmail().then((email) => setState(() {
-      userRepository.getUser(email).then((map) => setState(() {
+      userRepository.getUser(email!).then((map) => setState(() {
         _email = map["email"];
         _userId = map["userId"];
       }));

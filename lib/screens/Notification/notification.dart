@@ -19,7 +19,7 @@ class _NotificationsState extends State<Notifications> {
 
   void initState() {
     userRepository.getStorageUserEmail().then((email) => setState(() {
-      userRepository.getUser(email).then((map) => setState(() {
+      userRepository.getUser(email!).then((map) => setState(() {
         _email = map["email"];
         _userId = map["userId"];
       }));

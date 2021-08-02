@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_miningwallet/repository/repository.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/components/body.dart';
 import 'package:flutter_miningwallet/widgets/Panel_widget/Panelbody.dart';
@@ -19,7 +20,7 @@ class _MainScreenState extends State<MainScreen> {
 
   void initState() {
     userRepository.getStorageUserEmail().then((email) => setState(() {
-      userRepository.getUser(email).then((map) => setState(() {
+      userRepository.getUser(email!).then((map) => setState(() {
         _email = map["email"];
         _userId = map["userId"];
       }));
@@ -28,28 +29,36 @@ class _MainScreenState extends State<MainScreen> {
     super.initState();
   }
 
+  Future<bool> _onBackPressed() async {
+    SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     final panelHeightOpen = MediaQuery.of(context).size.height * 0.93;
     final panelHeightClosed = MediaQuery.of(context).size.height * 0.12;
 
-    return Scaffold(
-      body: SlidingUpPanel(
-        controller: panelController,
-        panelBuilder: (controller) => PanelWidget(
-            controller: controller, panelController: panelController, email: _email, userId: _userId),
-        maxHeight: panelHeightOpen,
-        minHeight: panelHeightClosed,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.grey,
-            blurRadius: 4,
-            spreadRadius: 9,
-            offset: Offset(1, 8),
-          ),
-        ],
-        body: Body(),
+    return WillPopScope(
+      onWillPop: _onBackPressed,
+      child: Scaffold(
+        body: SlidingUpPanel(
+          controller: panelController,
+          panelBuilder: (controller) => PanelWidget(
+              controller: controller, panelController: panelController, email: _email, userId: _userId),
+          maxHeight: panelHeightOpen,
+          minHeight: panelHeightClosed,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey,
+              blurRadius: 4,
+              spreadRadius: 9,
+              offset: Offset(1, 8),
+            ),
+          ],
+          body: Body(),
+        ),
       ),
     );
   }

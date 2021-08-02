@@ -132,24 +132,24 @@ Widget buildTopListView(List<dynamic> top100) {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                top100[index]["amount"].toString(),
+                top100[index]["amount"].toStringAsFixed(2),
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: Text(
-                  "GMC",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(horizontal: 10),
+              //   child: Text(
+              //     "GMC",
+              //     style: TextStyle(
+              //       color: Colors.black,
+              //       fontSize: 15,
+              //       fontWeight: FontWeight.bold,
+              //     ),
+              //   ),
+              // ),
             ],
           ),
           trailing: Image.asset(

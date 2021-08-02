@@ -18,7 +18,7 @@ class _BodyState extends State<Body> {
   List<dynamic> myReferralList = [];
   void initState() {
     userRepository.getStorageUserEmail().then((email) => setState(() {
-          userRepository.getMyReferral(email).then((list) => setState(() {
+          userRepository.getMyReferral(email!).then((list) => setState(() {
                 myReferralList = list;
               }));
         }));

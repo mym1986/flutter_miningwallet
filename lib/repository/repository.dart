@@ -33,7 +33,7 @@ class UserRepository{
     }
   }
 
-  Future<String> getStorageUserEmail() async {
+  Future<String?> getStorageUserEmail() async {
     return await storage.read(key: 'User');
   }
 

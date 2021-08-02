@@ -58,7 +58,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         }));
   }
 
-  Future<String> _getEmail() async {
+  Future<String?> _getEmail() async {
     final FlutterSecureStorage storage = FlutterSecureStorage();
     return await storage.read(key: "User");
   }
@@ -215,7 +215,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               "My Making(" + todayCount.toString() + "/10)",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            Text(myValue.toString(),
+            Text(myValue.toStringAsFixed(2),
                 style: TextStyle(color: Colors.white, fontSize: 20)),
           ],
         ),
@@ -360,7 +360,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               Text("Claimed",
                   style: TextStyle(color: Colors.white, fontSize: 14)),
               SizedBox(height: 9),
-              Text((myValue - recommendAmount).toString(),
+              Text((myValue - recommendAmount).toStringAsFixed(2),
                   style: TextStyle(color: Colors.white, fontSize: 18)),
             ],
           ),

@@ -124,8 +124,9 @@ class _IntroScreenState extends State<IntroScreen> {
   }
 
   Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-    String email = await userRepository.getUserEmail(googleUser.email);
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    // final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+    String email = await userRepository.getUserEmail(googleUser!.email);
     if(email != null) {
       userRepository.persisteUser(email);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
