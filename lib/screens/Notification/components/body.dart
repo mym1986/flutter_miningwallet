@@ -85,7 +85,7 @@ Widget buildNotificationListView() {
       itemBuilder: (context, a) {
         return Container(
           margin: EdgeInsets.symmetric(horizontal: 5, vertical: 2),
-          child: ourData(),
+          
         );
       });
 }
