@@ -126,7 +126,7 @@ class BuildIcons extends StatelessWidget {
             IconButton(
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return WebviewPage();
+                  return Webview();
                 }));
               },
               icon: Image.asset(
