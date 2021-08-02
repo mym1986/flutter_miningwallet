@@ -78,7 +78,7 @@ class _BodyState extends State<Body> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Container(
-              width: 348,
+              width: 367,
               decoration: BoxDecoration(
                 // color: Colors.black,
                 border:
@@ -133,7 +133,7 @@ Widget buildTopListView() {
           title: Row(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 50),
+                padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
                   "WBit",
                   style: TextStyle(
