@@ -88,26 +88,24 @@ class _BodyState extends State<Body> {
             ),
           ),
           referFriends(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                width: 367,
-                decoration: BoxDecoration(
-                  // color: Colors.black,
-                  border:
-                      Border(bottom: BorderSide(color: Colors.grey, width: 2)),
-                ),
-                margin: EdgeInsets.symmetric(horizontal: 22),
-                child: Padding(
+          Container(
+            decoration: BoxDecoration(
+              // color: Colors.black,
+              border: Border(bottom: BorderSide(color: Colors.grey, width: 2)),
+            ),
+            margin: EdgeInsets.symmetric(horizontal: 23),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
                   child: Text(
                     "My ReFerral",
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           myReferral(myReferralList),
         ],
