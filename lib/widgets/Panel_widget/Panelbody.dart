@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/repository/repository.dart';
 import 'package:flutter_miningwallet/screens/Invite/invite.dart';
@@ -17,11 +16,14 @@ class PanelWidget extends StatelessWidget {
   final String email;
   final String userId;
   const PanelWidget(
-      {Key? key, required this.controller, required this.panelController, required this.email, required this.userId})
+      {Key? key,
+      required this.controller,
+      required this.panelController,
+      required this.email,
+      required this.userId})
       : super(key: key);
   @override
   Widget build(BuildContext context) {
-
     return Container(
       padding: EdgeInsets.zero,
       child: Column(children: [
@@ -77,9 +79,7 @@ class BuildIcons extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MainScreen();
-                }));
+                _showDialog(context);
               },
               icon: Image.asset(
                 "assets/icons/edit.png",
@@ -93,9 +93,7 @@ class BuildIcons extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MainScreen();
-                }));
+                _showDialog(context);
               },
               icon: Image.asset(
                 "assets/icons/shopping-bag.png",
@@ -109,9 +107,7 @@ class BuildIcons extends StatelessWidget {
           children: [
             IconButton(
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return MainScreen();
-                }));
+                _showDialog(context);
               },
               icon: Image.asset(
                 "assets/icons/wallet.png",
@@ -148,7 +144,8 @@ class BuildIcons extends StatelessWidget {
 class UserInfo extends StatelessWidget {
   final String email;
   final String userId;
-  const UserInfo({Key? key, required this.email, required this.userId}) : super(key: key);
+  const UserInfo({Key? key, required this.email, required this.userId})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -369,4 +366,61 @@ class BuildSignOut extends StatelessWidget {
       ),
     );
   }
+}
+
+_showDialog(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          title: Container(
+            height: 40,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                "Notification",
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 22),
+              ),
+            ]),
+          ),
+          content: Container(
+            height: 40,
+            child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                "Service is being prepared",
+                style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+              ),
+            ]),
+          ),
+          actions: [
+            Container(
+              height: 50,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: 40,
+                    width: 130,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          primary: Colors.black,
+                          onPrimary: Colors.white,
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        child: const Text(
+                          'Check',
+                          style: TextStyle(color: Colors.white, fontSize: 22),
+                        )),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        );
+      });
 }

@@ -21,7 +21,7 @@ class _WebviewState extends State<Webview> {
     return SafeArea(
       child: Scaffold(body: 
         WebView(
-          initialUrl: "https://m.naver.com",
+          initialUrl: "https://www.cofinex.io/",
           javascriptMode: JavascriptMode.unrestricted,
           onWebViewCreated: (WebViewController webViewController) {
             _controller.complete(webViewController);
@@ -45,7 +45,7 @@ class _WebviewState extends State<Webview> {
                     IconButton(
                       icon: Icon(Icons.home), // 홈 페이지 가기.
                       onPressed: () {
-                        controller!.loadUrl('https://m.naver.com');
+                        controller!.loadUrl('https://www.cofinex.io/');
                       },
                     ),
                     IconButton(

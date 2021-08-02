@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:flutter_miningwallet/widgets/SideBar/SideBar.dart';
+import 'package:intl/intl.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -10,8 +11,7 @@ class Body extends StatefulWidget {
 }
 
 DateTime now = DateTime.now();
-DateTime currentTime =
-    new DateTime(now.year, now.month, now.day, now.hour, now.minute);
+String formattedDate = DateFormat('yyyy-MM-dd  kk:mm').format(now);
 
 class _BodyState extends State<Body> {
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
@@ -121,7 +121,7 @@ Widget buildTopListView() {
           leading:
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              "$currentTime",
+              "$formattedDate",
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(
