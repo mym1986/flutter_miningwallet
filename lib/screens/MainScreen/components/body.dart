@@ -351,32 +351,34 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         color: Colors.black,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15, top: 13, bottom: 13),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text("Claimed",
-                  style: TextStyle(color: Colors.white, fontSize: 14)),
-              SizedBox(height: 9),
-              Text((myValue - recommendAmount).toStringAsFixed(2),
-                  style: TextStyle(color: Colors.white, fontSize: 18)),
-            ],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 13, bottom: 13),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Claimed",
+                    style: TextStyle(color: Colors.white, fontSize: 14)),
+                SizedBox(height: 9),
+                Text((myValue - recommendAmount).toStringAsFixed(2),
+                    style: TextStyle(color: Colors.white, fontSize: 18)),
+              ],
+            ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 15),
-          child: Column(
-            children: [
-              Image.asset(
-                "assets/icons/pickaxe.png",
-                height: 20,
-                color: Colors.white,
-              ),
-            ],
-          ),
-        )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 15),
+            child: Column(
+              children: [
+                Image.asset(
+                  "assets/icons/pickaxe.png",
+                  height: 20,
+                  color: Colors.white,
+                ),
+              ],
+            ),
+          )
       ]),
     );
   }
@@ -389,35 +391,37 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
         color: Colors.black,
         borderRadius: BorderRadius.circular(10),
       ),
-      child: Row(children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 15, top: 13, bottom: 13),
-          child: Container(
-            // color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Referral",
-                    style: TextStyle(color: Colors.white, fontSize: 14)),
-                SizedBox(height: 9),
-                Text("0.00",
-                    style: TextStyle(color: Colors.white, fontSize: 18)),
-              ],
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 15, top: 13, bottom: 13),
+            child: Container(
+              // color: Colors.white,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Referral",
+                      style: TextStyle(color: Colors.white, fontSize: 14)),
+                  SizedBox(height: 9),
+                  Text("0.00",
+                      style: TextStyle(color: Colors.white, fontSize: 18)),
+                ],
+              ),
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 10),
-          child: Column(
-            children: [
-              Icon(
-                Icons.person_add,
-                color: Colors.white,
-                size: 28,
-              ),
-            ],
-          ),
-        )
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            child: Column(
+              children: [
+                Icon(
+                  Icons.person_add,
+                  color: Colors.white,
+                  size: 28,
+                ),
+              ],
+            ),
+          )
       ]),
     );
   }
