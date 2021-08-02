@@ -29,7 +29,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
   bool isMining = false;
   double myValue = 0.0;
   int todayCount = 0;
-  double todayAmount = 0.0;
+  double recommendAmount = 0.0;
   @override
   void initState() {
     super.initState();
@@ -49,8 +49,8 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                     if (int.parse(result["todayCount"]) > 0) {
                       todayCount = int.parse(result["todayCount"]);
                     }
-                    if (double.parse(result["todayAmount"]) > 0) {
-                      todayAmount = double.parse(result["todayAmount"]);
+                    if (double.parse(result["recommendAmount"]) > 0) {
+                      recommendAmount = double.parse(result["recommendAmount"]);
                     }
                     controller.reverse(from: 1 - value);
                     // controller.value = 1 - value;
@@ -215,7 +215,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               "My Making(" + todayCount.toString() + "/10)",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
-            Text(todayAmount.toString(),
+            Text(myValue.toString(),
                 style: TextStyle(color: Colors.white, fontSize: 20)),
           ],
         ),
@@ -360,7 +360,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               Text("Claimed",
                   style: TextStyle(color: Colors.white, fontSize: 14)),
               SizedBox(height: 9),
-              Text(myValue.toString(),
+              Text((myValue - recommendAmount).toString(),
                   style: TextStyle(color: Colors.white, fontSize: 18)),
             ],
           ),
