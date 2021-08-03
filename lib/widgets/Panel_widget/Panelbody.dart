@@ -370,6 +370,7 @@ class BuildSignOut extends StatelessWidget {
 
 _showDialog(BuildContext context) {
   showDialog(
+      barrierDismissible: false,
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
