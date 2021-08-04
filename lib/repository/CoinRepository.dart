@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,8 +22,6 @@ class CoinRepository{
   Uri getMiningUrl = Uri.parse('$mainUrl/mining/getMiningStatus');
   Uri getMiningTop100Url = Uri.parse('$mainUrl/mining/getMiningTop100');
   Uri getMiningHistoryUrl = Uri.parse('$mainUrl/mining/getMiningHistory');
-
-  final Dio _dio = Dio();
 
   static const Map<String, String> _JSON_HEADERS = {
     "content-type": "application/json"
@@ -172,6 +169,26 @@ class CoinRepository{
   Future<List> getTop100()async{
     http.Response response = await http.Client().post(getMiningTop100Url, headers: _JSON_HEADERS, body: null);
     print(response);
+    try {
+
+      //List data = jsonDecode(response.body);
+      Map<String, dynamic> map = json.decode(response.body);
+      List list = map["data"];
+      return list;
+    } catch (exception) {
+      print(response.body);
+      throw ('An error occurred');
+    }
+    //return response.data["user"];
+  }
+
+  Future<List> getMiningHistory(String email)async{
+    var data = {
+      "email": email
+    };
+    var body = json.encode(data);
+    http.Response response = await http.Client().post(getMiningHistoryUrl, headers: _JSON_HEADERS,
+        body: body);
     try {
 
       //List data = jsonDecode(response.body);

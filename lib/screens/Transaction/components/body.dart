@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_miningwallet/repository/CoinRepository.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:flutter_miningwallet/widgets/SideBar/SideBar.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intl/intl.dart';
 
 class Body extends StatefulWidget {
@@ -14,6 +16,22 @@ DateTime now = DateTime.now();
 String formattedDate = DateFormat('yyyy-MM-dd  kk:mm').format(now);
 
 class _BodyState extends State<Body> {
+  final coinRepository = CoinRepository();
+  List<dynamic> miningHistory = [];
+  void initState() {
+    _getEmail().then((val) => setState(() {
+      coinRepository.getMiningHistory(val.toString()).then((list) => setState(() {
+        miningHistory = list;
+      }));
+    }));
+    super.initState();
+  }
+
+  Future<String?> _getEmail() async {
+    final FlutterSecureStorage storage = FlutterSecureStorage();
+    return await storage.read(key: "User");
+  }
+
   GlobalKey<ScaffoldState> _globalKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
@@ -97,7 +115,7 @@ class _BodyState extends State<Body> {
           child: Container(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: buildTopListView(),
+              child: buildTopListView(miningHistory),
             ),
           ),
         ),
@@ -106,7 +124,7 @@ class _BodyState extends State<Body> {
   }
 }
 
-Widget buildTopListView() {
+Widget buildTopListView(List<dynamic> miningHistory) {
   return ListView.separated(
       padding: EdgeInsets.all(0),
       separatorBuilder: (context, index) {
@@ -115,13 +133,24 @@ Widget buildTopListView() {
           height: 0,
         );
       },
-      itemCount: 100,
+      itemCount: miningHistory.length,
       itemBuilder: (BuildContext context, int index) {
         return ListTile(
           leading:
               Column(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
-              "$formattedDate",
+              miningHistory[index]["miningStartDt"]["year"].toString() + "-" +
+              (miningHistory[index]["miningStartDt"]["monthValue"].toString().length == 1? "0": "") +
+              miningHistory[index]["miningStartDt"]["monthValue"].toString()+ "-" +
+              (miningHistory[index]["miningStartDt"]["dayOfMonth"].toString().length == 1? "0": "") +
+              miningHistory[index]["miningStartDt"]["dayOfMonth"].toString() + " " +
+              (miningHistory[index]["miningStartDt"]["hour"].toString().length == 1? "0": "") +
+              miningHistory[index]["miningStartDt"]["hour"].toString() + ":" +
+              (miningHistory[index]["miningStartDt"]["minute"].toString().length == 1? "0": "") +
+              miningHistory[index]["miningStartDt"]["minute"].toString() + ":" +
+              (miningHistory[index]["miningStartDt"]["second"].toString().length == 1? "0": "") +
+              miningHistory[index]["miningStartDt"]["second"].toString(),
+              // "$formattedDate",
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(
@@ -143,7 +172,7 @@ Widget buildTopListView() {
             ],
           ),
           trailing: Text(
-            "0.05",
+            miningHistory[index]["miningAmount"].toString(),
             style: TextStyle(fontSize: 17),
           ),
         );

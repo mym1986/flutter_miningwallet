@@ -1,11 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_miningwallet/repository/repository.dart';
 import 'package:flutter_miningwallet/screens/MainScreen/mainscreen.dart';
 import 'package:flutter_miningwallet/screens/membership/membership.dart';
-import 'package:flutter_miningwallet/widgets/Panel_widget/Panelbody.dart';
-import 'package:flutter_miningwallet/widgets/Panel_widget/Panel_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -123,32 +120,71 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
-  Future<UserCredential> signInWithGoogle() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-    // final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
-    String email = await userRepository.getUserEmail(googleUser!.email);
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final GoogleSignIn googleSignIn = GoogleSignIn();
+
+  Future<String> signInWithGoogle() async {
+    final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
+    final GoogleSignInAuthentication googleSignInAuthentication =
+    await googleSignInAccount.authentication;
+
+    final AuthCredential credential = GoogleAuthProvider.getCredential(
+      accessToken: googleSignInAuthentication.accessToken,
+      idToken: googleSignInAuthentication.idToken,
+    );
+
+    final AuthResult authResult = await _auth.signInWithCredential(credential);
+    final FirebaseUser user = authResult.user;
+
+    assert(!user.isAnonymous);
+    assert(await user.getIdToken() != null);
+
+    final FirebaseUser currentUser = await _auth.currentUser();
+    assert(user.uid == currentUser.uid);
+
+    String email = await userRepository.getUserEmail(user.email);
+
     if(email != null) {
       userRepository.persisteUser(email);
       Navigator.push(context, MaterialPageRoute(builder: (context) {
         return MainScreen();
       }));
-
     }else {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return BuildMembership(email: googleUser.email);
-        }));
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return BuildMembership(email: user.email);
+      }));
     }
-    final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
-    final OAuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-    return await FirebaseAuth.instance.signInWithCredential(credential);
+
+    return 'signInWithGoogle succeeded: ';
   }
 
-  Future<void> signOut() async {
-    await Firebase.initializeApp();
+  // Future<void> signInWithGoogle() async {
+  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //   // final GoogleSignInAccount googleUser = await GoogleSignIn().signIn();
+  //   if(googleUser != null) {
+  //     String email = await userRepository.getUserEmail(googleUser.email);
+  //     if(email != null) {
+  //       userRepository.persisteUser(email);
+  //       final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+  //       final OAuthCredential credential = GoogleAuthProvider.credential(
+  //         accessToken: googleAuth.accessToken,
+  //         idToken: googleAuth.idToken,
+  //       );
+  //       await _auth.signInWithCredential(credential);
+  //       Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //         return MainScreen();
+  //       }));
+  //     }else {
+  //       Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //         return BuildMembership(email: googleUser.email);
+  //       }));
+  //     }
+  //   }
+  //
+  // }
 
+
+  Future<void> signOut() async {
     try {
       await FirebaseAuth.instance.signOut();
       print("Success");

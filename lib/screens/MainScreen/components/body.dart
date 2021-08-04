@@ -404,7 +404,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
                   Text("Referral",
                       style: TextStyle(color: Colors.white, fontSize: 14)),
                   SizedBox(height: 9),
-                  Text("0.00",
+                  Text(recommendAmount.toStringAsFixed(2),
                       style: TextStyle(color: Colors.white, fontSize: 18)),
                 ],
               ),
@@ -444,7 +444,7 @@ class _BodyState extends State<Body> with SingleTickerProviderStateMixin {
               style: TextStyle(color: Colors.white, fontSize: 18),
             ),
             Text(
-              "0.05",
+              "0.01",
               style: TextStyle(color: Colors.white, fontSize: 20),
             ),
           ],

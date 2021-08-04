@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,7 +21,6 @@ class UserRepository{
   Uri getMyReferralUrl = Uri.parse('$mainUrl/users/getRecommender');
 
   final FlutterSecureStorage storage = FlutterSecureStorage();
-  final Dio _dio = Dio();
 
   Future<bool> hasUser() async{
     var value = await storage.read(key: 'User');
